@@ -13,12 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Project::create([
-            'name' => 'Progetto A',
-            'description' => 'Un progetto di esempio',
-            'start_date' => '2024-01-15',
-            'end_date' => '2024-02-15',
-        ]);
+       
+       $this->call(ProjectSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
