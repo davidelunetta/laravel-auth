@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
 
 class ProjectController extends Controller
 {
@@ -32,13 +34,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
        $x = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
             'start_date' => 'required|date',
+    
         ]);
-        dd($request);
-        
+      
             $project =  new Project();
             $project->name=$request->name;
             $project->description=$request->description;
