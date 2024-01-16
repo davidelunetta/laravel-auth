@@ -36,25 +36,23 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-       $x = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
             'start_date' => 'required|date',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('project_images');
-                $validatedData['image_path'] = $imagePath;
-            }
-            $project = Project::create($validatedData);
-            // Project::create($validatedData);
-            // $project =  new Project();
-            // $project->name=$request->name;
-            // $project->description=$request->description;
-            // $project->start_date=$request->start_date;
-            // $project->image=$validatedData->image;
-            $project->save();
+        
+        // Opzione 1: Utilizzando il metodo create direttamente
+        // $project = Project::create($validatedData);
+        
+        // Opzione 2: Utilizzando un nuovo oggetto Project
+        $project = new Project();
+        $project->name = $validatedData['name'];
+        $project->description = $validatedData['description'];
+        $project->start_date = $validatedData['start_date'];
+        $project->image = $validatedData['image'];
+        $project->save();
 
             return redirect()->route('admin.projects.index')->with('success', 'Progetto creato con successo!');
     }
