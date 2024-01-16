@@ -9,6 +9,7 @@
                     <h5 class="card-title">{{ $project->name }}</h5>
                     <p class="card-text">{{ $project->description }}</p>
                     <p class="card-text"><strong>Data di inizio:</strong> {{ $project->start_date }}</p>
+                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-primary">Dettagli</a>
                 </div>
             </li>
         @endforeach
