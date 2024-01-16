@@ -20,6 +20,10 @@
                 <label for="formGroupExampleInput2" class="form-label">Data creazione</label>
                 <input type="text" name="start_date" class="form-control" id="start_date" placeholder="...">
             </div>
+            <div>
+                <label for="image">Immagine:</label>
+                <input type="file" name="image" accept="image/*">
+            </div>
         </div>
         <button class="btn btn-primary" type="submit">Crea progetto</button>
     </form>
