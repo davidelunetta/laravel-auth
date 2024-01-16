@@ -2,7 +2,7 @@
 @section('content')
 {{-- form con action  --}}
 <div>
-    <form action="{{ route('admin.projects.store') }}" method="POST">
+    <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-floating">
             <div class="mb-3">

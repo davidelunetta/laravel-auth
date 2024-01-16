@@ -12,3 +12,13 @@ $fa-font-path: "../fonts/webfonts" !default;
 h1 {
     color: $text-color;
 }
+
+.card-body{
+    width: 300px;
+    max-height: 500px;
+    overflow: scroll;
+}
+.card-title{
+    text-align: center;
+    color: black;
+}
