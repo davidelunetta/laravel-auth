@@ -5,7 +5,7 @@
         
         
         @if($project->image_path)
-        <img src="{{ Storage::url($project->image_path) }}" alt="Immagine del progetto">
+        <img src="{{ asset('storage/' . $project->image_path) }}" alt="Immagine del progetto">
         @endif
         <h1>{{ $project->name }}</h1>
         <p>{{ $project->description }}</p>

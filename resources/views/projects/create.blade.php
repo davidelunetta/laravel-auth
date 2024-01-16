@@ -22,7 +22,7 @@
             </div>
             <div>
                 <label for="image">Immagine:</label>
-                <input type="file" name="image" accept="image/*">
+                <input type="file" name="image_path" accept="image/*">
             </div>
         </div>
         <button class="btn btn-primary mt-3" type="submit">Crea progetto</button>

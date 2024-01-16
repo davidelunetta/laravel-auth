@@ -8,8 +8,8 @@ use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-
-
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\File;
 class ProjectController extends Controller
 {
     /**
@@ -35,23 +35,32 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        try {
         // dd($request->all());
         $validatedData = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
             'start_date' => 'required|date',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
         // Opzione 1: Utilizzando il metodo create direttamente
         // $project = Project::create($validatedData);
-        
+    }
+        catch (ValidationException $e) {
+            // Ritorna una risposta con gli errori di validazione
+            dd($e->errors());
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         // Opzione 2: Utilizzando un nuovo oggetto Project
         $project = new Project();
         $project->name = $validatedData['name'];
         $project->description = $validatedData['description'];
         $project->start_date = $validatedData['start_date'];
-        $project->image = $validatedData['image'];
+        if ($request->hasFile('image_path')) {
+            $imagePath = Storage::putFile('project_images', new File($request->file('image_path')->path()));
+            $project->image_path = $imagePath;
+        }
         $project->save();
 
             return redirect()->route('admin.projects.index')->with('success', 'Progetto creato con successo!');
@@ -82,14 +91,15 @@ class ProjectController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'start_date' => 'required|date',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image_path')) {
             
-            Storage::delete($project->image_path);
-    
-            $imagePath = $request->file('image')->store('project_images');
-            $validatedData['image_path'] = $imagePath;
+            // Storage::delete($project->image_path);
+            // $imagePath = Storage::putFile('project_images', new File($request->file('image')->path()));
+            // $validatedData['image_path'] = $validatedData;
+            $imagePath = $request->file('image_path')->store('public/project_images');
+            $project->image_path = str_replace('public/', '', $imagePath);
         }
     
         $project->update($validatedData);

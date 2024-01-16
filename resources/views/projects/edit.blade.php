@@ -20,7 +20,7 @@
             </div>
             <div>
                 <label for="image" class="form-label">Immagine:</label>
-                <input type="file" class="form-control" name="image" accept="image/*">
+                <input type="file" class="form-control" name="image_path" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary">Salva Modifiche</button>
         </form>
