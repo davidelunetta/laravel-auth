@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\File;
@@ -43,22 +40,17 @@ class ProjectController extends Controller
             'start_date' => 'required|date',
             'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
-        // Opzione 1: Utilizzando il metodo create direttamente
-        // $project = Project::create($validatedData);
     }
         catch (ValidationException $e) {
-            // Ritorna una risposta con gli errori di validazione
             dd($e->errors());
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
-        // Opzione 2: Utilizzando un nuovo oggetto Project
         $project = new Project();
         $project->name = $validatedData['name'];
         $project->description = $validatedData['description'];
         $project->start_date = $validatedData['start_date'];
         if ($request->hasFile('image_path')) {
-            $imagePath = Storage::putFile('project_images', new File($request->file('image_path')->path()));
+            $imagePath = Storage::putFile('public/project_images', new File($request->file('image_path')->path()));
             $project->image_path = $imagePath;
         }
         $project->save();
@@ -94,15 +86,11 @@ class ProjectController extends Controller
             'image_path' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if ($request->hasFile('image_path')) {
-            
-            // Storage::delete($project->image_path);
-            // $imagePath = Storage::putFile('project_images', new File($request->file('image')->path()));
-            // $validatedData['image_path'] = $validatedData;
-            $imagePath = $request->file('image_path')->store('public/project_images');
-            $project->image_path = str_replace('public/', '', $imagePath);
+            $imagePath = Storage::putFile('public/project_images', new File($request->file('image_path')->path()));
+            $project->image_path = $imagePath;
         }
     
-        $project->update($validatedData);
+        $project->update();
     
         return redirect()->route('admin.projects.show', $project)->with('success', 'Progetto aggiornato con successo!');
     }
