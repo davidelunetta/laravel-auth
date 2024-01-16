@@ -7,10 +7,10 @@
         @foreach($projects as $project)
         <div class="card-body ">
             <li class="card mb-3 mx-2 " style="">
-                    <h5 class="card-title">{{ $project->name }}</h5>
+                    <h5 class="card-title mt-1">{{ $project->name }}</h5>
                     <p class="card-text">{{ $project->description }}</p>
                     <p class="card-text"><strong>Data di inizio:</strong> {{ $project->start_date }}</p>
-                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-primary">Dettagli</a>
+                    <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-primary mt-3">Dettagli</a>
             </li>
         </div>
         @endforeach

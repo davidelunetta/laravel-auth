@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 {{-- form con action  --}}
-<div>
+<div class="container">
     <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-floating">
@@ -25,7 +25,7 @@
                 <input type="file" name="image" accept="image/*">
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Crea progetto</button>
+        <button class="btn btn-primary mt-3" type="submit">Crea progetto</button>
     </form>
 </div>
   
